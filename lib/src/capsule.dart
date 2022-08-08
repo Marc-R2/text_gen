@@ -1,9 +1,9 @@
 part of '../text_gen.dart';
 
 class Capsule extends Gen {
-  List<Gen> encapsulated;
-
   Capsule({required this.encapsulated});
+
+  List<Gen> encapsulated;
 
   @override
   void add(Gen i) => encapsulated.add(i);
@@ -46,7 +46,7 @@ class Capsule extends Gen {
         buffer.write(element.buildVariant(i! % depth));
         i ~/= element.getDepth();
       } else if (element is Random) {
-        int index = (i! % depth);
+        final index = i! % depth;
         buffer.write(element.buildVariant(index));
         i ~/= depth;
       }
@@ -71,7 +71,7 @@ class Capsule extends Gen {
 
   @override
   int getDepth() {
-    int depth = 1;
+    var depth = 1;
     for (final element in encapsulated) {
       depth *= element.getDepth();
     }

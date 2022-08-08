@@ -9,9 +9,9 @@ class GeneratedParser {
     if(chars.last != ')') chars.add(')');
 
     Gen? current;
-    List<Gen> stack = [];
+    final stack = <Gen>[];
 
-    for (String i in chars) {
+    for (final i in chars) {
       // print('i is: $i');
       if (i == ' ') {
         if (current is Txt) {

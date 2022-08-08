@@ -1,9 +1,9 @@
 part of '../text_gen.dart';
 
 class Random extends Gen {
-  List<Gen> possibilities;
-
   Random({required this.possibilities});
+
+  List<Gen> possibilities;
 
   @override
   void add(Gen i) => possibilities.add(i);
@@ -27,7 +27,7 @@ class Random extends Gen {
     // If the cache has the index, return the value.
     if (cache.containsKey(i)) return cache[i];
 
-    int depth = 0;
+    var depth = 0;
     for (final element in possibilities) {
       final lDepth = element.getDepth();
       depth += lDepth;
@@ -41,7 +41,7 @@ class Random extends Gen {
 
   @override
   int getDepth() {
-    int depth = 0;
+    var depth = 0;
     for (final element in possibilities) {
       depth += element.getDepth();
     }

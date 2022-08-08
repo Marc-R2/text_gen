@@ -1,9 +1,9 @@
 part of '../text_gen.dart';
 
 class Txt extends Gen {
-  String text;
-
   Txt({required this.text});
+
+  String text;
 
   @override
   void add(Gen i) {

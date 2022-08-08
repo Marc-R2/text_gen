@@ -1,18 +1,5 @@
 part of '../text_gen.dart';
 
-void main() {
-  final textGenerator = GeneratedParser.parse('(The weather is {very really} nice today.)');
-  if (textGenerator != null) {
-    final depth = textGenerator.getDepth();
-    print(depth);
-
-    final variant = textGenerator.buildVariant();
-    print(variant);
-  } else {
-    print('no match');
-  }
-}
-
 abstract class Gen {
   void add(Gen i);
 
