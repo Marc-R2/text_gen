@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.collapsible {
+  color: black;
+  cursor: pointer;
+  padding: 0px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+}
+
+.hit {
+  background-color: #DAE7FE;
+}
+
+.hit:hover {
+  color: white;
+  background-color: #6688D4;
+}
+
+.problem {
+  background-color: #FF6230;
+}
+
+.problem:hover {
+  background-color: #FF0000;
+}
+
+span.lineNumber
+{
+  display: inline-block;
+  color: black;
+  background-color: #EFE383;
+}
+
+.addedLine {
+background-color: rgb(200, 255, 200)
+}
+.changedTokens {
+background-color: rgb(50, 255, 50)
+}
+
+pre
+{
+  font-family: monospace;
+  white-space: pre;
+}
+
+pre.fileContents
+{
+  margin: 0px;
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  background-color: #f1f1f1;
+}
+table{
+    border-collapse: collapse;
+}
+
+hr.ruler
+{
+  height:3px;
+  border-width:0;
+  color:#6688D4;
+  background-color:#6688D4
+}
+td.title
+{
+  text-align: center;
+  padding-bottom: 10px;
+  font-family: Helvetica, sans-serif;
+  font-size: 20pt;
+  font-style: italic;
+  font-weight: bold;
+}
+td.footer {
+  text-align: center;
+  padding-bottom: 10px;
+  font-family: Helvetica, sans-serif;
+  font-size: 12pt;
+}
+
+td.ItemLabel
+{
+  text-align: right;
+  padding-right: 6px;
+  font-family: sans-serif;
+  font-weight: bold;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+td.mutationLabel
+{
+  text-align: right;
+  padding-right: 6px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+td.mutationText
+{
+  text-align: left;
+  vertical-align: top;
+}
+
+
+
+td.ItemText
+{
+  text-align: left;
+  padding-right: 6px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color:#6688D4;
+  white-space: nowrap;
+}
+
+td.ItemReport
+{
+  text-align: right;
+  color: #284FA8;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #DAE7FE;
+  border-collapse: unset;
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+td.FileLink
+{
+  text-align: left;
+  color: #284FA8;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #DAE7FE;
+  border-collapse: unset;
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+
+td.ItemReportHigh
+{
+  text-align: right;
+  color: black;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #A7FC9D;
+  border-collapse: unset;
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+td.ItemReportMedium
+{
+  text-align: right;
+  color: black;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #FFEA20;
+  border-collapse: unset;
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+td.ItemReportLow
+{
+  text-align: right;
+  color: black;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #FF0000;
+  border-collapse: unset;
+  border: 2px;
+  border-color: white;
+  border-style: solid;
+}
+
+td.MiddleHeader
+{
+  text-align: center;
+  padding-right: 6px;
+  padding-left: 6px;
+  font-family: sans-serif;
+  white-space: nowrap;
+}
+
+td.ItemHead
+{
+  text-align: center;
+  color: white;
+  font-family: sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #6688D4;
+  border-collapse: unset;
+  border: 1px;
+  border-color: white;
+  border-style: solid;
+}
+
+
+td.barHi
+{
+  background-color: #00eb00;
+}
+
+td.barMed
+{
+  background-color: #FFEA20;
+}
+
+td.barLo
+{
+  background-color: #ff0000;
+}
+
+td.barBg
+{
+  background-color: #FFFFFF;
+}
+
+</style>
+</head>
+<body>
+<table width ="100%" cellspacing="0" border="0">
+    <tr><td class="title">Mutation test report</td></tr>
+     <tr><td><hr class="ruler"/></td></tr>
+
+     <tr>
+     <td width="100%">
+     <table width="100%" cellpadding="1" border="0">
+     <tbody><tr>
+     <td class="ItemLabel" width="10%">Current display:</td>
+     <td class="ItemText" width="35%">lib/src/txt.dart - <a href="../../mutation-test-report.html">back to top</a></td>
+     <td width="10%"></td>
+     <td class="MiddleHeader" width="15%">Detected</td>
+     <td class="MiddleHeader" width="15%">Total</td>
+     <td class="MiddleHeader" width="15%">Percentage</td>
+     </tr>
+
+     <tr>
+     <td class="ItemLabel" width="10%">Date:</td>
+     <td class="ItemText" width="35%">2022-11-30 21:17:25.443618</td>
+     <td class="ItemLabel" width="10%">Mutations:</td>
+     <td class="ItemReport" width="15%">8</td>
+     <td class="ItemReport" width="15%">8</td>
+     <td class="ItemReportHigh" width="15%">100.0 %</td>
+     </tr>
+     
+     <tr>
+     <td class="ItemLabel" width="10%">Builtin rules:</td>
+     <td class="ItemText" width="35%">true</td>
+     <td class="ItemLabel" width="10%">Timeouts:</td>
+     <td class="ItemReport" width="15%">0</td>
+     <td class="ItemReport" width="15%">8</td>
+     <td class="ItemReportHigh" width="15%">0.0 %</td>
+     </tr>
+     </tbody>
+     </table>
+     </td>
+     </tr>
+     
+
+     
+     <tr><td><hr class="ruler"/></td></tr>
+</table>
+
+<pre class="fileHeader">          Source code</pre>
+<pre class="fileContents">
+<a name="1"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       1 </span>part of '../text_gen.dart';</pre></button>
+<div class="content">
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+ part of '..<span class="changedTokens">*</span>text_gen.dart';</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+ part of '..<span class="changedTokens">+</span>text_gen.dart';</span></td></tr></table>
+
+</div></a><a name="2"><span class="lineNumber">       2 </span></a>
+<a name="3"><span class="lineNumber">       3 </span>class Txt extends Gen {</a>
+<a name="4"><span class="lineNumber">       4 </span>  Txt({required this.text});</a>
+<a name="5"><span class="lineNumber">       5 </span></a>
+<a name="6"><span class="lineNumber">       6 </span>  String text;</a>
+<a name="7"><span class="lineNumber">       7 </span></a>
+<a name="8"><span class="lineNumber">       8 </span>  @override</a>
+<a name="9"><span class="lineNumber">       9 </span>  void add(Gen i) {</a>
+<a name="10"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">      10 </span>    if (i is Txt) text += i.text;</pre></button>
+<div class="content">
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     if (i is Txt) text <span class="changedTokens">-</span>= i.text;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+     if (i is Txt) text <span class="changedTokens">*</span>= i.text;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+    <span class="changedTokens"> if (!(i is Txt) text += i.text;
+  }
+
+  @override
+  String buildArguments()) {</span></span></td></tr></table>
+
+</div></a><a name="11"><span class="lineNumber">      11 </span>  }</a>
+<a name="12"><span class="lineNumber">      12 </span></a>
+<a name="13"><span class="lineNumber">      13 </span>  @override</a>
+<a name="14"><span class="lineNumber">      14 </span>  String buildArguments() {</a>
+<a name="15"><span class="lineNumber">      15 </span>    return text;</a>
+<a name="16"><span class="lineNumber">      16 </span>  }</a>
+<a name="17"><span class="lineNumber">      17 </span></a>
+<a name="18"><span class="lineNumber">      18 </span>  @override</a>
+<a name="19"><span class="lineNumber">      19 </span>  String toString() =&gt; 'Txt($text)';</a>
+<a name="20"><span class="lineNumber">      20 </span></a>
+<a name="21"><span class="lineNumber">      21 </span>  @override</a>
+<a name="22"><span class="lineNumber">      22 </span>  String buildVariant([int? i]) =&gt; text;</a>
+<a name="23"><span class="lineNumber">      23 </span></a>
+<a name="24"><span class="lineNumber">      24 </span>  @override</a>
+<a name="25"><span class="lineNumber">      25 </span>  int getDepth() =&gt; 1;</a>
+<a name="26"><span class="lineNumber">      26 </span></a>
+<a name="27"><span class="lineNumber">      27 </span>  @override</a>
+<a name="28"><span class="lineNumber">      28 </span>  List&lt;Gen&gt;? getPathToUuid(String uuid) {</a>
+<a name="29"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">      29 </span>    if (uuid == this.uuid) return [this];</pre></button>
+<div class="content">
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     if (uuid <span class="changedTokens">!=</span> this.uuid) return [this];</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+    <span class="changedTokens"> if (!(uuid == this.uuid) return [this];
+    return null;
+  }
+
+  @override
+  Gen? getByUuid(String uuid)) {</span></span></td></tr></table>
+
+</div></a><a name="30"><span class="lineNumber">      30 </span>    return null;</a>
+<a name="31"><span class="lineNumber">      31 </span>  }</a>
+<a name="32"><span class="lineNumber">      32 </span></a>
+<a name="33"><span class="lineNumber">      33 </span>  @override</a>
+<a name="34"><span class="lineNumber">      34 </span>  Gen? getByUuid(String uuid) {</a>
+<a name="35"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">      35 </span>    if (uuid == this.uuid) return this;</pre></button>
+<div class="content">
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     if (uuid <span class="changedTokens">!=</span> this.uuid) return this;</span></td></tr></table>
+
+</div></a><a name="36"><span class="lineNumber">      36 </span>    return null;</a>
+<a name="37"><span class="lineNumber">      37 </span>  }</a>
+<a name="38"><span class="lineNumber">      38 </span></a>
+<a name="39"><span class="lineNumber">      39 </span>  @override</a>
+<a name="40"><span class="lineNumber">      40 </span>  bool replaceByUuid(String uuid, Gen newGen) =&gt; false;</a>
+<a name="41"><span class="lineNumber">      41 </span>}</a>
+<a name="42"><span class="lineNumber">      42 </span></a>
+</pre>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+	for (k = 0; k < coll.length; k++) {
+      var content2 = coll[k].nextElementSibling;
+      if (content2.style.maxHeight && content.parentElement == content2){
+      content2.style.maxHeight = content2.scrollHeight + content.scrollHeight + "px";
+    }
+      
+    }
+    
+  });
+}
+</script><table width ="100%" cellspacing="0" border="0">
+  <tr><td><hr class="ruler"/></td></tr>
+  <tr><td class="footer">Generated by <a href="https://domohuhn.github.io/mutation-test/">mutation-test version: 1.3.1</a></td></tr>
+</table>
+</body>
+</html>
