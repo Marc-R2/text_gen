@@ -1,4 +1,7 @@
-# text_gen
+# TextGen
+
+[![Dart](https://github.com/Marc-R2/text_gen/actions/workflows/dart.yml/badge.svg)](https://github.com/Marc-R2/text_gen/actions/workflows/dart.yml)
+[![codecov](https://codecov.io/gh/Marc-R2/text_gen/branch/master/graph/badge.svg?token=KDCBH47FDA)](https://codecov.io/gh/Marc-R2/text_gen)
 
 Generates text variations based on simple rules.
 
