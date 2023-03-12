@@ -10,7 +10,6 @@ class Capsule extends Gen {
 
   @override
   String buildArguments() {
-    // print(this);
     final buffer = StringBuffer();
     for (final element in encapsulated) {
       if (buffer.isNotEmpty) buffer.write(' ');
@@ -22,19 +21,17 @@ class Capsule extends Gen {
   @override
   String toString() => 'Capsule(${getDepth()})$encapsulated';
 
-  Map<int?, String?> cache = {};
+  final Map<int?, String?> _cache = {};
 
   @override
+
   /// Builds the ith variant of the encapsulated Gen and its children.
   String? buildVariant([int? i]) {
+    final depth = getDepth();
+    i ??= random.nextInt(depth);
+    if (_cache.containsKey(i)) return _cache[i];
 
-    // If [i] is null, then assign a random index. 0 to depth.
-    i ??= random.nextInt(getDepth());
-
-    // If the cache has the index, return the value.
-    if (cache.containsKey(i)) return cache[i];
-
-    if (i >= getDepth()) return null;
+    if (i >= depth) return null;
     final buffer = StringBuffer();
 
     for (final element in encapsulated) {
@@ -51,7 +48,6 @@ class Capsule extends Gen {
         i ~/= depth;
       }
     }
-    // print('var($i): $this => $buffer');
     return buffer.toString();
   }
 
@@ -80,7 +76,7 @@ class Capsule extends Gen {
 
   @override
   List<Gen>? getPathToUuid(String uuid) {
-    if(uuid == this.uuid) return [this];
+    if (uuid == this.uuid) return [this];
     for (final element in encapsulated) {
       final path = element.getPathToUuid(uuid);
       if (path != null) return [this, ...path];
@@ -90,20 +86,13 @@ class Capsule extends Gen {
 
   @override
   Gen? getByUuid(String uuid) {
-    Gen? res;
     for (final element in encapsulated) {
-      if (element.uuid == uuid) {
-        res = element;
-        break;
-      } else {
-        final uuFound = element.getByUuid(uuid);
-        if (uuFound != null) {
-          res = uuFound;
-          break;
-        }
-      }
+      if (element.uuid == uuid) return element;
+
+      final uuFound = element.getByUuid(uuid);
+      if (uuFound != null) return uuFound;
     }
-    return res;
+    return null;
   }
 
   @override
@@ -112,10 +101,8 @@ class Capsule extends Gen {
       if (element.uuid == uuid) {
         encapsulated[encapsulated.indexOf(element)] = newGen;
         return true;
-      } else {
-        final uuFound = element.replaceByUuid(uuid, newGen);
-        if (uuFound) return true;
       }
+      if (element.replaceByUuid(uuid, newGen)) return true;
     }
     return false;
   }

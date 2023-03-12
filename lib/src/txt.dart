@@ -11,9 +11,7 @@ class Txt extends Gen {
   }
 
   @override
-  String buildArguments() {
-    return text;
-  }
+  String buildArguments() => text;
 
   @override
   String toString() => 'Txt($text)';

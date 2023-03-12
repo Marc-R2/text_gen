@@ -1,8 +1,11 @@
 part of '../text_gen.dart';
 
+/// A [Gen] that chooses a random [Gen] from a list of [possibilities].
 class Random extends Gen {
+  /// Creates a [Random] with a list of possible [Gen] to choose from.
   Random({required this.possibilities});
 
+  /// The list of possible Gen to choose from.
   List<Gen> possibilities;
 
   @override
@@ -18,39 +21,28 @@ class Random extends Gen {
     return '{$buffer}';
   }
 
-  Map<int?, String?> cache = {};
+  final Map<int?, String?> _cache = {};
 
   @override
   String? buildVariant([int? i]) {
     i ??= random.nextInt(getDepth());
-
-    // If the cache has the index, return the value.
-    if (cache.containsKey(i)) return cache[i];
+    if (_cache.containsKey(i)) return _cache[i];
 
     var depth = 0;
     for (final element in possibilities) {
       final lDepth = element.getDepth();
       depth += lDepth;
-      if(depth > i) {
-        // print('var($i): $this => ${element.buildVariant(i % lDepth)}');
-        return element.buildVariant(i % lDepth);
-      }
+      if (depth > i) return element.buildVariant(i % lDepth);
     }
     return null;
   }
 
   @override
-  int getDepth() {
-    var depth = 0;
-    for (final element in possibilities) {
-      depth += element.getDepth();
-    }
-    return depth;
-  }
+  int getDepth() => possibilities.fold(0, (depth, el) => depth + el.getDepth());
 
   @override
   List<Gen>? getPathToUuid(String uuid) {
-    if(uuid == this.uuid) return [this];
+    if (uuid == this.uuid) return [this];
     for (final element in possibilities) {
       final path = element.getPathToUuid(uuid);
       if (path != null) return [this, ...path];
@@ -60,20 +52,13 @@ class Random extends Gen {
 
   @override
   Gen? getByUuid(String uuid) {
-    Gen? res;
     for (final element in possibilities) {
-      if (element.uuid == uuid) {
-        res = element;
-        break;
-      } else {
-        final uuFound = element.getByUuid(uuid);
-        if (uuFound != null) {
-          res = uuFound;
-          break;
-        }
-      }
+      if (element.uuid == uuid) return element;
+
+      final uuFound = element.getByUuid(uuid);
+      if (uuFound != null) return uuFound;
     }
-    return res;
+    return null;
   }
 
   @override
@@ -85,10 +70,8 @@ class Random extends Gen {
       if (element.uuid == uuid) {
         possibilities[possibilities.indexOf(element)] = newGen;
         return true;
-      } else {
-        final uuFound = element.replaceByUuid(uuid, newGen);
-        if (uuFound) return true;
       }
+      if (element.replaceByUuid(uuid, newGen)) return true;
     }
     return false;
   }
