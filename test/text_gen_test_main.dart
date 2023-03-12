@@ -1,4 +1,5 @@
 import 'capsule_test.dart' as capsule;
+import 'parser_test.dart' as parser;
 import 'random_test.dart' as random;
 import 'text_gen_test.dart' as text_gen;
 import 'txt_test.dart' as txt;
@@ -8,4 +9,5 @@ void main() {
   txt.main();
   capsule.main();
   random.main();
+  parser.main();
 }

@@ -106,4 +106,15 @@ class Capsule extends Gen {
     }
     return false;
   }
+
+  @override // ==
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Capsule &&
+        encapsulated.length == other.encapsulated.length &&
+        encapsulated.every((el) => other.encapsulated.contains(el));
+  }
+
+  @override // hashCode
+  int get hashCode => encapsulated.fold(0, (hash, el) => hash ^ el.hashCode);
 }

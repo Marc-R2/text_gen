@@ -75,4 +75,16 @@ class Random extends Gen {
     }
     return false;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Random &&
+          runtimeType == other.runtimeType &&
+          possibilities.length == other.possibilities.length &&
+          possibilities
+              .every((element) => other.possibilities.contains(element));
+
+  @override
+  int get hashCode => possibilities.fold(0, (hash, el) => hash + el.hashCode);
 }

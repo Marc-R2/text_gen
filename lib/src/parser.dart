@@ -12,7 +12,6 @@ class GeneratedParser {
     final stack = <Gen>[];
 
     for (final i in chars) {
-      // print('i is: $i');
       if (i == ' ') {
         if (current is Txt) {
           final tmp = stack.last;

@@ -36,4 +36,12 @@ class Txt extends Gen {
 
   @override
   bool replaceByUuid(String uuid, Gen newGen) => false;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Txt && runtimeType == other.runtimeType && text == other.text;
+
+  @override
+  int get hashCode => text.hashCode;
 }
