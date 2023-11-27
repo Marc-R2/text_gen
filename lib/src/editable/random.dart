@@ -1,47 +1,18 @@
-part of '../text_gen.dart';
+part of '../../text_gen.dart';
 
-/// A [Gen] that chooses a random [Gen] from a list of [possibilities].
-class Random extends Gen {
-  /// Creates a [Random] with a list of possible [Gen] to choose from.
-  Random({required this.possibilities});
+/// A [EditableGen] that chooses a random [EditableGen] from a list of [possibilities].
+class EditableRandom extends EditableGen<Random> {
+  /// Creates a [EditableRandom] with a list of possible [EditableGen] to choose from.
+  EditableRandom({required this.possibilities});
 
   /// The list of possible Gen to choose from.
-  List<Gen> possibilities;
+  List<EditableGen> possibilities;
 
   @override
-  void add(Gen i) => possibilities.add(i);
+  void add(EditableGen i) => possibilities.add(i);
 
   @override
-  String buildArguments() {
-    final buffer = StringBuffer();
-    for (final element in possibilities) {
-      if (buffer.isNotEmpty) buffer.write(' ');
-      buffer.write(element.buildArguments());
-    }
-    return '{$buffer}';
-  }
-
-  final Map<int?, String?> _cache = {};
-
-  @override
-  String? buildVariant([int? i]) {
-    i ??= random.nextInt(getDepth());
-    if (_cache.containsKey(i)) return _cache[i];
-
-    var depth = 0;
-    for (final element in possibilities) {
-      final lDepth = element.getDepth();
-      depth += lDepth;
-      if (depth > i) return element.buildVariant(i % lDepth);
-    }
-    return null;
-  }
-
-  @override
-  int getDepth() => possibilities.fold(0, (depth, el) => depth + el.getDepth());
-
-  @override
-  List<Gen>? getPathToUuid(String uuid) {
+  List<EditableGen>? getPathToUuid(String uuid) {
     if (uuid == this.uuid) return [this];
     for (final element in possibilities) {
       final path = element.getPathToUuid(uuid);
@@ -51,7 +22,7 @@ class Random extends Gen {
   }
 
   @override
-  Gen? getByUuid(String uuid) {
+  EditableGen? getByUuid(String uuid) {
     for (final element in possibilities) {
       if (element.uuid == uuid) return element;
 
@@ -65,7 +36,7 @@ class Random extends Gen {
   String toString() => 'Random(${getDepth()})$possibilities';
 
   @override
-  bool replaceByUuid(String uuid, Gen newGen) {
+  bool replaceByUuid(String uuid, EditableGen newGen) {
     for (final element in possibilities) {
       if (element.uuid == uuid) {
         possibilities[possibilities.indexOf(element)] = newGen;
@@ -79,7 +50,7 @@ class Random extends Gen {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Random &&
+      other is EditableRandom &&
           runtimeType == other.runtimeType &&
           possibilities.length == other.possibilities.length &&
           possibilities
@@ -87,4 +58,11 @@ class Random extends Gen {
 
   @override
   int get hashCode => possibilities.fold(0, (hash, el) => hash + el.hashCode);
+
+  @override
+  Random toStaticGen() {
+    return Random(
+      possibilities: possibilities.map((e) => e.toStaticGen()).toList(),
+    );
+  }
 }

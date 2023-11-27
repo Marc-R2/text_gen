@@ -5,7 +5,7 @@ void main() {
   group('GeneratedParser', () {
     test('should parse simple text', () {
       const input = 'Hello';
-      final expected = Capsule(encapsulated: [Txt(text: input)]);
+      final expected = EditableCapsule(encapsulated: [EditableTxt(text: input)]);
       final parsed = GeneratedParser.parse(input);
       expect(parsed, equals(expected));
       expect(parsed.toString(), equals(expected.toString()));
@@ -14,8 +14,8 @@ void main() {
 
     test('should parse encapsulated text', () {
       const input = '(Hello, world!)';
-      final expected = Capsule(
-        encapsulated: [Txt(text: 'Hello,'), Txt(text: 'world!')],
+      final expected = EditableCapsule(
+        encapsulated: [EditableTxt(text: 'Hello,'), EditableTxt(text: 'world!')],
       );
       final parsed = GeneratedParser.parse(input);
       expect(parsed, equals(expected));
@@ -25,11 +25,11 @@ void main() {
 
     test('should parse nested encapsulated text', () {
       const input = '(Hello, (beautiful) world!)';
-      final expected = Capsule(
+      final expected = EditableCapsule(
         encapsulated: [
-          Txt(text: 'Hello,'),
-          Capsule(encapsulated: [Txt(text: 'beautiful')]),
-          Txt(text: 'world!'),
+          EditableTxt(text: 'Hello,'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'beautiful')]),
+          EditableTxt(text: 'world!'),
         ],
       );
       final parsed = GeneratedParser.parse(input);
@@ -40,12 +40,12 @@ void main() {
 
     test('should parse random text', () {
       const input = '{Hello Hi}, {world universe}!';
-      final expected = Capsule(
+      final expected = EditableCapsule(
         encapsulated: [
-          Random(possibilities: [Txt(text: 'Hello'), Txt(text: 'Hi')]),
-          Txt(text: ','),
-          Random(possibilities: [Txt(text: 'world'), Txt(text: 'universe')]),
-          Txt(text: '!'),
+          EditableRandom(possibilities: [EditableTxt(text: 'Hello'), EditableTxt(text: 'Hi')]),
+          EditableTxt(text: ','),
+          EditableRandom(possibilities: [EditableTxt(text: 'world'), EditableTxt(text: 'universe')]),
+          EditableTxt(text: '!'),
         ],
       );
       final parsed = GeneratedParser.parse(input);

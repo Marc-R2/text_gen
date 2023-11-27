@@ -4,29 +4,29 @@ import 'package:text_gen/text_gen.dart';
 void main() {
   group('Capsule', () {
     test('buildArguments', () {
-      final c = Capsule(
-        encapsulated: [Txt(text: 'Hello,'), Txt(text: 'world!')],
+      final c = EditableCapsule(
+        encapsulated: [EditableTxt(text: 'Hello,'), EditableTxt(text: 'world!')],
       );
       expect(c.buildArguments(), equals('(Hello, world!)'));
     });
 
     test('getDepth', () {
-      final c = Capsule(
+      final c = EditableCapsule(
         encapsulated: [
-          Txt(text: 'Hello,'),
-          Capsule(encapsulated: [Txt(text: 'world!'), Txt(text: 'Goodbye,')]),
-          Txt(text: 'cruel world.'),
+          EditableTxt(text: 'Hello,'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'world!'), EditableTxt(text: 'Goodbye,')]),
+          EditableTxt(text: 'cruel world.'),
         ],
       );
       expect(c.getDepth(), equals(1));
     });
 
     test('buildVariant', () {
-      final c = Capsule(
+      final c = EditableCapsule(
         encapsulated: [
-          Txt(text: 'A'),
-          Capsule(encapsulated: [Txt(text: 'B'), Txt(text: 'C')]),
-          Txt(text: 'D'),
+          EditableTxt(text: 'A'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'B'), EditableTxt(text: 'C')]),
+          EditableTxt(text: 'D'),
         ],
       );
 
@@ -38,11 +38,11 @@ void main() {
     });
 
     test('getByUuid', () {
-      final c = Capsule(
+      final c = EditableCapsule(
         encapsulated: [
-          Txt(text: 'A'),
-          Capsule(encapsulated: [Txt(text: 'B'), Txt(text: 'C')]),
-          Txt(text: 'D'),
+          EditableTxt(text: 'A'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'B'), EditableTxt(text: 'C')]),
+          EditableTxt(text: 'D'),
         ],
       );
 
@@ -51,11 +51,11 @@ void main() {
     });
 
     test('getPathToUuid', () {
-      final c = Capsule(
+      final c = EditableCapsule(
         encapsulated: [
-          Txt(text: 'A'),
-          Capsule(encapsulated: [Txt(text: 'B'), Txt(text: 'C')]),
-          Txt(text: 'D'),
+          EditableTxt(text: 'A'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'B'), EditableTxt(text: 'C')]),
+          EditableTxt(text: 'D'),
         ],
       );
 
@@ -67,15 +67,15 @@ void main() {
     });
 
     test('replaceByUuid', () {
-      final c = Capsule(
+      final c = EditableCapsule(
         encapsulated: [
-          Txt(text: 'A'),
-          Capsule(encapsulated: [Txt(text: 'B'), Txt(text: 'C')]),
-          Txt(text: 'D'),
+          EditableTxt(text: 'A'),
+          EditableCapsule(encapsulated: [EditableTxt(text: 'B'), EditableTxt(text: 'C')]),
+          EditableTxt(text: 'D'),
         ],
       );
 
-      final newGen = Txt(text: 'E');
+      final newGen = EditableTxt(text: 'E');
       expect(c.replaceByUuid(c.encapsulated[1].uuid, newGen), equals(true));
       expect(c.encapsulated[1], equals(newGen));
       expect(c.replaceByUuid('nonexistent-uuid', newGen), equals(false));

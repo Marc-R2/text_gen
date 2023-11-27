@@ -4,11 +4,11 @@ import 'package:text_gen/text_gen.dart';
 void main() {
   group('Random', () {
     test('buildVariant returns a string with expected length', () {
-      final randomGen = Random(
+      final randomGen = EditableRandom(
         possibilities: [
-          Txt(text: 'foo'),
-          Txt(text: 'bar'),
-          Txt(text: 'baz'),
+          EditableTxt(text: 'foo'),
+          EditableTxt(text: 'bar'),
+          EditableTxt(text: 'baz'),
         ],
       );
 
@@ -18,13 +18,13 @@ void main() {
     });
 
     test('getDepth returns the correct depth', () {
-      final randomGen = Random(
+      final randomGen = EditableRandom(
         possibilities: [
-          Txt(text: 'foo'),
-          Capsule(
+          EditableTxt(text: 'foo'),
+          EditableCapsule(
             encapsulated: [
-              Txt(text: 'bar'),
-              Txt(text: 'baz'),
+              EditableTxt(text: 'bar'),
+              EditableTxt(text: 'baz'),
             ],
           ),
         ],
@@ -34,10 +34,10 @@ void main() {
     });
 
     test('getPathToUuid returns the correct path', () {
-      final child1 = Txt(text: 'foo');
-      final child2 = Txt(text: 'bar');
-      final child3 = Txt(text: 'baz');
-      final randomGen = Random(possibilities: [child1, child2, child3]);
+      final child1 = EditableTxt(text: 'foo');
+      final child2 = EditableTxt(text: 'bar');
+      final child3 = EditableTxt(text: 'baz');
+      final randomGen = EditableRandom(possibilities: [child1, child2, child3]);
 
       expect(randomGen.getPathToUuid(child1.uuid), equals([randomGen, child1]));
       expect(randomGen.getPathToUuid(child2.uuid), equals([randomGen, child2]));
@@ -45,10 +45,10 @@ void main() {
     });
 
     test('getByUuid returns the correct child', () {
-      final child1 = Txt(text: 'foo');
-      final child2 = Txt(text: 'bar');
-      final child3 = Txt(text: 'baz');
-      final randomGen = Random(possibilities: [child1, child2, child3]);
+      final child1 = EditableTxt(text: 'foo');
+      final child2 = EditableTxt(text: 'bar');
+      final child3 = EditableTxt(text: 'baz');
+      final randomGen = EditableRandom(possibilities: [child1, child2, child3]);
 
       expect(randomGen.getByUuid(child1.uuid), equals(child1));
       expect(randomGen.getByUuid(child2.uuid), equals(child2));
@@ -56,11 +56,11 @@ void main() {
     });
 
     test('replaceByUuid replaces the correct child', () {
-      final child1 = Txt(text: 'foo');
-      final child2 = Txt(text: 'bar');
-      final child3 = Txt(text: 'baz');
-      final randomGen = Random(possibilities: [child1, child2, child3]);
-      final newTxt = Txt(text: 'qux');
+      final child1 = EditableTxt(text: 'foo');
+      final child2 = EditableTxt(text: 'bar');
+      final child3 = EditableTxt(text: 'baz');
+      final randomGen = EditableRandom(possibilities: [child1, child2, child3]);
+      final newTxt = EditableTxt(text: 'qux');
 
       expect(randomGen.replaceByUuid(child2.uuid, newTxt), isTrue);
       expect(randomGen.possibilities, equals([child1, newTxt, child3]));

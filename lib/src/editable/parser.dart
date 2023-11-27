@@ -1,38 +1,38 @@
-part of '../text_gen.dart';
+part of '../../text_gen.dart';
 
 class GeneratedParser {
-  static Gen? parse(String txt) {
+  static EditableGen? parse(String txt) {
     final chars = txt.split('');
     if (chars.isEmpty) return null;
 
     if(chars.first != '(') chars.insert(0, '(');
     if(chars.last != ')') chars.add(')');
 
-    Gen? current;
-    final stack = <Gen>[];
+    EditableGen? current;
+    final stack = <EditableGen>[];
 
     for (final i in chars) {
       if (i == ' ') {
-        if (current is Txt) {
+        if (current is EditableTxt) {
           final tmp = stack.last;
-          if (tmp is Capsule) tmp.add(current);
-          if (tmp is Random) tmp.add(current);
+          if (tmp is EditableCapsule) tmp.add(current);
+          if (tmp is EditableRandom) tmp.add(current);
           current = stack.removeLast();
         }
       } else if (i == '(') {
-        if (current is Txt) {
+        if (current is EditableTxt) {
           final tmp = stack.last;
-          if (tmp is Capsule) tmp.add(current);
-          if (tmp is Random) tmp.add(current);
+          if (tmp is EditableCapsule) tmp.add(current);
+          if (tmp is EditableRandom) tmp.add(current);
           current = stack.removeLast();
         }
         if (current != null) stack.add(current);
-        current = Capsule(encapsulated: []);
+        current = EditableCapsule(encapsulated: []);
       } else if (i == ')') {
-        if (current is Txt) {
+        if (current is EditableTxt) {
           final tmp = stack.last;
-          if (tmp is Capsule) tmp.add(current);
-          if (tmp is Random) tmp.add(current);
+          if (tmp is EditableCapsule) tmp.add(current);
+          if (tmp is EditableRandom) tmp.add(current);
           current = stack.removeLast();
         }
         if (stack.isNotEmpty && current != null) {
@@ -40,19 +40,19 @@ class GeneratedParser {
           current = stack.removeLast();
         }
       } else if (i == '{') {
-        if (current is Txt) {
+        if (current is EditableTxt) {
           final tmp = stack.last;
-          if (tmp is Capsule) tmp.add(current);
-          if (tmp is Random) tmp.add(current);
+          if (tmp is EditableCapsule) tmp.add(current);
+          if (tmp is EditableRandom) tmp.add(current);
           current = stack.removeLast();
         }
         if (current != null) stack.add(current);
-        current = Random(possibilities: []);
+        current = EditableRandom(possibilities: []);
       } else if (i == '}') {
-        if (current is Txt) {
+        if (current is EditableTxt) {
           final tmp = stack.last;
-          if (tmp is Capsule) tmp.add(current);
-          if (tmp is Random) tmp.add(current);
+          if (tmp is EditableCapsule) tmp.add(current);
+          if (tmp is EditableRandom) tmp.add(current);
           current = stack.removeLast();
         }
         if (stack.isNotEmpty && current != null) {
@@ -60,11 +60,11 @@ class GeneratedParser {
           current = stack.removeLast();
         }
       } else {
-        if (current is Txt) {
-          current.add(Txt(text: i));
+        if (current is EditableTxt) {
+          current.add(EditableTxt(text: i));
         } else {
           if (current != null) stack.add(current);
-          current = Txt(text: i);
+          current = EditableTxt(text: i);
         }
       }
     }
