@@ -12,7 +12,7 @@ class Txt extends StaticGen {
   String toString() => 'Txt($text)';
 
   @override
-  String buildVariant([int? i]) => text;
+  String buildVariantNum(int i) => text;
 
   @override
   int getDepth() => 1;

@@ -15,6 +15,7 @@ void main() {
       final reParsed = GeneratedParser.parse(rebuild);
       expect(reParsed, equals(expected));
       expect(reParsed.toString(), equals(expected.toString()));
+      expect(reParsed.hashCode, equals(expected.hashCode));
     });
 
     test('should parse encapsulated text', () {
@@ -31,6 +32,7 @@ void main() {
       final reParsed = GeneratedParser.parse(rebuild);
       expect(reParsed, equals(expected));
       expect(reParsed.toString(), equals(expected.toString()));
+      expect(reParsed.hashCode, equals(expected.hashCode));
     });
 
     test('should parse nested encapsulated text', () {
@@ -51,6 +53,7 @@ void main() {
       final reParsed = GeneratedParser.parse(rebuild);
       expect(reParsed, equals(expected));
       expect(reParsed.toString(), equals(expected.toString()));
+      expect(reParsed.hashCode, equals(expected.hashCode));
     });
 
     test('should parse random text', () {
@@ -71,6 +74,7 @@ void main() {
       final reParsed = GeneratedParser.parse(rebuild);
       expect(reParsed, equals(expected));
       expect(reParsed.toString(), equals(expected.toString()));
+      expect(reParsed.hashCode, equals(expected.hashCode));
     });
   });
 }

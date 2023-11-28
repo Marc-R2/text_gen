@@ -5,7 +5,12 @@ abstract class Gen {
 
   String buildArguments();
 
-  String? buildVariant([int? i]);
+  String? buildVariant([int? i]) {
+    i ??= random.nextInt(getDepth());
+    return buildVariantNum(i);
+  }
+
+  String? buildVariantNum(int i);
 
   int getDepth();
 }
@@ -32,7 +37,7 @@ abstract class EditableGen<T extends StaticGen> extends Gen {
 
   String buildArguments() => toStaticGen().buildArguments();
 
-  String? buildVariant([int? i]) => toStaticGen().buildVariant(i);
+  String? buildVariantNum(int i) => toStaticGen().buildVariantNum(i);
 
   int getDepth() => toStaticGen().getDepth();
 
