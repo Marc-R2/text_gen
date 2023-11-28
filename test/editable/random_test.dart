@@ -12,9 +12,9 @@ void main() {
         ],
       );
 
-      expect(randomGen.buildVariantNum(0), equals('foo'));
-      expect(randomGen.buildVariantNum(1), equals('bar'));
-      expect(randomGen.buildVariantNum(2), equals('baz'));
+      expect(randomGen.buildVariant(0), equals('foo'));
+      expect(randomGen.buildVariant(1), equals('bar'));
+      expect(randomGen.buildVariant(2), equals('baz'));
     });
 
     test('getDepth returns the correct depth', () {

@@ -30,23 +30,20 @@ class Capsule extends StaticGen {
   @override
 
   /// Builds the ith variant of the encapsulated Gen and its children.
-  String? buildVariantNum(int i) {
+  String? buildVariantNum(int i, StringBuffer buffer) {
     final depth = getDepth();
     if (i >= depth) return null;
 
-    final buffer = StringBuffer();
-
     for (final element in encapsulated) {
-      if (buffer.isNotEmpty) buffer.write(' ');
       final depth = element.getDepth();
       if (element is Txt) {
-        buffer.write(element.buildVariantNum(1));
+        element.buildVariantNum(1, buffer);
       } else if (element is Capsule) {
-        buffer.write(element.buildVariantNum(i % depth));
+        element.buildVariantNum(i % depth, buffer);
         i ~/= element.getDepth();
       } else if (element is Random) {
         final index = i % depth;
-        buffer.write(element.buildVariantNum(index));
+        element.buildVariantNum(index, buffer);
         i ~/= depth;
       }
     }

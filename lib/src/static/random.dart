@@ -19,14 +19,16 @@ class Random extends StaticGen {
   }
 
   @override
-  String? buildVariantNum(int i) {
+  void buildVariantNum(int i, StringBuffer buffer) {
     var depth = 0;
     for (final element in possibilities) {
       final lDepth = element.getDepth();
       depth += lDepth;
-      if (depth > i) return element.buildVariantNum(i % lDepth);
+      if (depth > i) {
+        element.buildVariantNum(i % lDepth, buffer);
+        return;
+      }
     }
-    return null;
   }
 
   @override

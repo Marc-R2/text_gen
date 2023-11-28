@@ -31,10 +31,10 @@ void main() {
       );
 
       // Variant 0
-      expect(c.buildVariantNum(0), equals('A B C D'));
+      expect(c.buildVariant(0), equals('A B C D'));
 
       // Variant 1
-      expect(c.buildVariantNum(1), equals(null));
+      expect(c.buildVariant(1), equals(null));
     });
   });
 }
