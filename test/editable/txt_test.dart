@@ -23,29 +23,47 @@ void main() {
       expect(txt.getDepth(), equals(1));
     });
 
-    test('getPathToUuid returns null if UUID does not match', () {
-      final txt = EditableTxt(text: 'Hello, world!');
-      expect(txt.getPathToUuid('invalid-uuid'), isNull);
+    group('add', () {
+      test('add()', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.text, equals('Hello, world!'));
+        txt.add(txt);
+        expect(txt.text, equals('Hello, world!Hello, world!'));
+      });
+
+      test('addString()', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.text, equals('Hello, world!'));
+        txt.addString('foo');
+        expect(txt.text, equals('Hello, world!foo'));
+      });
     });
 
-    test('getPathToUuid returns list with this object if UUID matches', () {
-      final txt = EditableTxt(text: 'Hello, world!');
-      expect(txt.getPathToUuid(txt.uuid), equals([txt]));
-    });
+    group('uuid', () {
+      test('getPathToUuid returns null if UUID does not match', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.getPathToUuid('invalid-uuid'), isNull);
+      });
 
-    test('getByUuid returns null if UUID does not match', () {
-      final txt = EditableTxt(text: 'Hello, world!');
-      expect(txt.getByUuid('invalid-uuid'), isNull);
-    });
+      test('getPathToUuid returns list with this object if UUID matches', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.getPathToUuid(txt.uuid), equals([txt]));
+      });
 
-    test('getByUuid returns this object if UUID matches', () {
-      final txt = EditableTxt(text: 'Hello, world!');
-      expect(txt.getByUuid(txt.uuid), equals(txt));
-    });
+      test('getByUuid returns null if UUID does not match', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.getByUuid('invalid-uuid'), isNull);
+      });
 
-    test('replaceByUuid always returns false', () {
-      final txt = EditableTxt(text: 'Hello, world!');
-      expect(txt.replaceByUuid(txt.uuid, txt), isFalse);
+      test('getByUuid returns this object if UUID matches', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.getByUuid(txt.uuid), equals(txt));
+      });
+
+      test('replaceByUuid always returns false', () {
+        final txt = EditableTxt(text: 'Hello, world!');
+        expect(txt.replaceByUuid(txt.uuid, txt), isFalse);
+      });
     });
   });
 }
