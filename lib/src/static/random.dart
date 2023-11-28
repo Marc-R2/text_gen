@@ -30,7 +30,13 @@ class Random extends StaticGen {
   }
 
   @override
-  int getDepth() => possibilities.fold(0, (depth, el) => depth + el.getDepth());
+  int getDepth() {
+    final cacheHit = getCacheHit();
+    if (cacheHit != null) return cacheHit;
+    final depth = possibilities.fold(0, (depth, el) => depth + el.getDepth());
+    setCacheHit(depth);
+    return depth;
+  }
 
   @override
   String toString() => 'Random(${getDepth()})$possibilities';

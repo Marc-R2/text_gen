@@ -17,6 +17,17 @@ abstract class Gen {
 
 abstract class StaticGen extends Gen {
   const StaticGen();
+
+  static final depthCache = <StaticGen, int>{};
+
+  int? getCacheHit() {
+    if (depthCache.containsKey(this)) return depthCache[this];
+    return null;
+  }
+
+  void setCacheHit(int depth) {
+    depthCache[this] = depth;
+  }
 }
 
 abstract class EditableGen<T extends StaticGen> extends Gen {

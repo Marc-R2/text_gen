@@ -11,3 +11,4 @@ pubspec.lock
 /text_gen.iml
 /.idea/
 /mutation-test-report/
+/output/
