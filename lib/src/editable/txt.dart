@@ -1,18 +1,14 @@
 part of '../../text_gen.dart';
 
 class EditableTxt extends EditableGen<Txt> {
-  EditableTxt({required String text}) : _buffer = StringBuffer(text);
+  EditableTxt({required this.text});
 
-  final StringBuffer _buffer;
-  
-  String get text => _buffer.toString();
+  String text;
 
   @override
   void add(EditableGen i) {
-    if (i is EditableTxt) addString(i.text);
+    if (i is EditableTxt) text += i.text;
   }
-
-  void addString(String string) => _buffer.write(string);
 
   @override
   List<EditableGen>? getPathToUuid(String uuid) {

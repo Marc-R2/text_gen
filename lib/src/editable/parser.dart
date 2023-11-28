@@ -67,7 +67,7 @@ class GeneratedParser {
           break;
         default:
           if (current is EditableTxt) {
-            current.addString(i);
+            current.add(EditableTxt(text: i));
           } else {
             if (current != null) stack.add(current);
             current = EditableTxt(text: i);
