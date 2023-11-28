@@ -9,9 +9,6 @@ class EditableCapsule extends EditableGen<Capsule> {
   void add(EditableGen i) => encapsulated.add(i);
 
   @override
-  String toString() => 'Capsule(${getDepth()})$encapsulated';
-
-  @override
   List<EditableGen>? getPathToUuid(String uuid) {
     if (uuid == this.uuid) return [this];
     for (final element in encapsulated) {

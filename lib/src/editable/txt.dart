@@ -11,9 +11,6 @@ class EditableTxt extends EditableGen<Txt> {
   }
 
   @override
-  String toString() => 'Txt($text)';
-
-  @override
   List<EditableGen>? getPathToUuid(String uuid) {
     if (uuid == this.uuid) return [this];
     return null;

@@ -33,9 +33,6 @@ class EditableRandom extends EditableGen<Random> {
   }
 
   @override
-  String toString() => 'Random(${getDepth()})$possibilities';
-
-  @override
   bool replaceByUuid(String uuid, EditableGen newGen) {
     for (final element in possibilities) {
       if (element.uuid == uuid) {

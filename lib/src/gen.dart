@@ -35,4 +35,7 @@ abstract class EditableGen<T extends StaticGen> extends Gen {
   String? buildVariant([int? i]) => toStaticGen().buildVariant(i);
 
   int getDepth() => toStaticGen().getDepth();
+
+  @override
+  String toString() => toStaticGen().toString();
 }
