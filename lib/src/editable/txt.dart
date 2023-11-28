@@ -7,8 +7,10 @@ class EditableTxt extends EditableGen<Txt> {
 
   @override
   void add(EditableGen i) {
-    if (i is EditableTxt) text += i.text;
+    if (i is EditableTxt) addString(i.text);
   }
+
+  void addString(String s) => text += s;
 
   @override
   List<EditableGen>? getPathToUuid(String uuid) {
