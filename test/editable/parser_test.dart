@@ -10,6 +10,11 @@ void main() {
       expect(parsed, equals(expected));
       expect(parsed.toString(), equals(expected.toString()));
       expect(parsed?.buildArguments(), equals('($input)'));
+
+      final rebuild = parsed?.buildArguments() ?? '';
+      final reParsed = GeneratedParser.parse(rebuild);
+      expect(reParsed, equals(expected));
+      expect(reParsed.toString(), equals(expected.toString()));
     });
 
     test('should parse encapsulated text', () {
@@ -21,6 +26,11 @@ void main() {
       expect(parsed, equals(expected));
       expect(parsed.toString(), equals(expected.toString()));
       expect(parsed?.buildArguments(), equals(input));
+
+      final rebuild = parsed?.buildArguments() ?? '';
+      final reParsed = GeneratedParser.parse(rebuild);
+      expect(reParsed, equals(expected));
+      expect(reParsed.toString(), equals(expected.toString()));
     });
 
     test('should parse nested encapsulated text', () {
@@ -36,6 +46,11 @@ void main() {
       expect(parsed, equals(expected));
       expect(parsed.toString(), equals(expected.toString()));
       expect(parsed?.buildArguments(), equals(input));
+
+      final rebuild = parsed?.buildArguments() ?? '';
+      final reParsed = GeneratedParser.parse(rebuild);
+      expect(reParsed, equals(expected));
+      expect(reParsed.toString(), equals(expected.toString()));
     });
 
     test('should parse random text', () {
@@ -51,6 +66,11 @@ void main() {
       final parsed = GeneratedParser.parse(input);
       expect(parsed, equals(expected));
       expect(parsed.toString(), equals(expected.toString()));
+
+      final rebuild = parsed?.buildArguments() ?? '';
+      final reParsed = GeneratedParser.parse(rebuild);
+      expect(reParsed, equals(expected));
+      expect(reParsed.toString(), equals(expected.toString()));
     });
   });
 }
